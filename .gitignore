@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Cloudflare Wrangler
+.wrangler/
+
+# Environment / secrets
+.env
+.env.*
+.dev.vars
+
+# OS / editor
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# Private product docs (kept locally, never published)
+Ingredients_NCOSoap.pdf
+Ingredients_OatmealSheaButterSoap.pdf
+Ingredients_SheaButtersoap.pdf
+Ingredients_TripleButterSoap.pdf
+handmade soaps.odt
