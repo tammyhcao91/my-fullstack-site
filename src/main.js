@@ -7,6 +7,7 @@ const products = [
     name: "Crystal Triple Butters Soap",
     tag: "Triple butter",
     image: "/images/triple-butter.jpg",
+    alt: "Crystal Triple Butters vegan soap bar — a smooth off-white bar made with cocoa, mango, and shea butter",
     features: [
       "<strong>Three butters, one bar:</strong> Cocoa, Mango, and Shea unite for serious skin nourishment.",
       "<strong>Melts in like a treat:</strong> Silky, spa-like texture with a rich, creamy lather.",
@@ -24,6 +25,7 @@ const products = [
     name: "Oatmeal & Shea Butter Soap",
     tag: "Gentle exfoliation",
     image: "/images/oatmeal-shea.jpg",
+    alt: "Oatmeal & Shea Butter vegan soap bar — a speckled off-white bar with visible oatmeal flecks",
     features: [
       "<strong>Buff and soften:</strong> Real oatmeal flecks gently polish away dullness.",
       "<strong>Deeply conditioning:</strong> Shea Butter seals in moisture for dry, sensitive skin.",
@@ -40,6 +42,7 @@ const products = [
     name: "Shea Butter Soap",
     tag: "Pure & simple",
     image: "/images/shea-butter.jpg",
+    alt: "Shea Butter vegan soap bar — a pure white, moisturizing bar",
     features: [
       "<strong>Velvety-smooth:</strong> Turns everyday washing into a little moment of pampering.",
       "<strong>Skin-friendly balance:</strong> A gentle pH that respects your skin's natural harmony.",
@@ -57,6 +60,7 @@ const products = [
     name: "NCO Soap",
     tag: "Clarity & lather",
     image: "/images/nco.jpg",
+    alt: "NCO vegan soap bar — a clear, transparent glycerin bar",
     features: [
       "<strong>Stays hydrated:</strong> Built-in humectants keep skin smooth and never tight.",
       "<strong>Crystal clarity:</strong> A crisp, transparent base that shows off color and scent.",
@@ -74,7 +78,7 @@ const products = [
 const productSection = (p, index) => `
   <article class="product ${index % 2 === 1 ? "reverse" : ""}" id="${p.id}">
     <div class="product-art">
-      <img src="${p.image}" alt="${p.name}" loading="lazy" />
+      <img src="${p.image}" alt="${p.alt}" loading="lazy" decoding="async" />
     </div>
     <div class="product-body">
       <p class="eyebrow">${p.tag}</p>
@@ -132,7 +136,7 @@ app.innerHTML = `
           </div>
         </div>
         <div class="hero-art">
-          <img src="/images/hero.jpg" alt="Hand crafted vegan soaps — a heart-shaped bar and a floral bar" loading="eager" />
+          <img src="/images/hero.jpg" alt="Hand crafted vegan soaps — a heart-shaped bar and a floral bar" loading="eager" fetchpriority="high" decoding="async" />
         </div>
       </div>
     </section>
@@ -208,6 +212,29 @@ app.innerHTML = `
     </div>
   </footer>
 `;
+
+// Structured data (JSON-LD) for the product catalog — helps search engines
+// understand each soap. Built from the products array above so it never drifts.
+const productLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: products.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "Product",
+      name: p.name,
+      image: `${location.origin}${p.image}`,
+      description: p.description,
+      category: "Vegan soap",
+      brand: { "@type": "Brand", name: "Vermazing Soaps" },
+    },
+  })),
+};
+const ldScript = document.createElement("script");
+ldScript.type = "application/ld+json";
+ldScript.textContent = JSON.stringify(productLd);
+document.head.appendChild(ldScript);
 
 // Lead form — static demo handling (no backend yet)
 const form = document.querySelector("#lead-form");

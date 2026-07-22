@@ -2,13 +2,66 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>Vermazing · Hand Crafted Vegan Soaps</title>
     <meta
       name="description"
       content="Small-batch, hand crafted vegan soaps made with plant butters and pure essential oils. Kind to your skin, kind to the planet."
     />
-    <title>Vermazing &middot; Hand Crafted Vegan Soaps</title>
+    <link rel="canonical" href="https://my-fullstack-site.pages.dev/" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#4a7c59" />
+
+    <!-- Open Graph (Facebook, LinkedIn, iMessage, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Vermazing Soaps" />
+    <meta property="og:title" content="Vermazing · Hand Crafted Vegan Soaps" />
+    <meta
+      property="og:description"
+      content="Small-batch, hand crafted vegan soaps made with plant butters and pure essential oils. Kind to your skin, kind to the planet."
+    />
+    <meta property="og:url" content="https://my-fullstack-site.pages.dev/" />
+    <meta property="og:image" content="https://my-fullstack-site.pages.dev/images/hero.jpg" />
+    <meta property="og:image:alt" content="Hand crafted vegan soap bars" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vermazing · Hand Crafted Vegan Soaps" />
+    <meta
+      name="twitter:description"
+      content="Small-batch, hand crafted vegan soaps made with plant butters and pure essential oils."
+    />
+    <meta name="twitter:image" content="https://my-fullstack-site.pages.dev/images/hero.jpg" />
+
+    <!-- Performance: preload the hero image (the LCP element) -->
+    <link rel="preload" as="image" href="/images/hero.jpg" fetchpriority="high" />
+
+    <!-- Structured data: organization + website -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://my-fullstack-site.pages.dev/#org",
+            "name": "Vermazing Soaps",
+            "url": "https://my-fullstack-site.pages.dev/",
+            "description": "Small-batch, hand crafted vegan soaps made with plant butters and pure essential oils.",
+            "logo": "https://my-fullstack-site.pages.dev/NCO.png"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://my-fullstack-site.pages.dev/#website",
+            "url": "https://my-fullstack-site.pages.dev/",
+            "name": "Vermazing · Hand Crafted Vegan Soaps",
+            "publisher": { "@id": "https://my-fullstack-site.pages.dev/#org" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>
