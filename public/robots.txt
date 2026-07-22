@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin.html
 
-Sitemap: https://my-fullstack-site.pages.dev/sitemap.xml
+Sitemap: https://vermazing.ca/sitemap.xml
