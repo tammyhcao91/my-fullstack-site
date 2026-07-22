@@ -35,3 +35,53 @@ create policy "Public can submit a lead"
 -- 5) Index for listing newest messages first.
 create index if not exists leads_created_at_idx
   on public.leads (created_at desc);
+
+
+-- ============================================================
+--  Admin access
+-- ============================================================
+
+-- 6) Allow-list of admin accounts. Being signed in is NOT enough to read
+--    leads — the account must also have a row here.
+create table if not exists public.admins (
+  user_id    uuid primary key references auth.users (id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
+alter table public.admins enable row level security;
+
+-- A signed-in user may look up their own admin row (and nobody else's).
+drop policy if exists "Users can read their own admin row" on public.admins;
+create policy "Users can read their own admin row"
+  on public.admins
+  for select
+  to authenticated
+  using (user_id = auth.uid());
+
+-- 7) Helper for the policies below. SECURITY DEFINER lets it check the admins
+--    table without tripping over that table's own row level security.
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (select 1 from public.admins where user_id = auth.uid());
+$$;
+
+-- 8) Admins may read and delete leads. Everyone else still cannot — including
+--    signed-in accounts that are not on the allow-list.
+drop policy if exists "Admins can read leads" on public.leads;
+create policy "Admins can read leads"
+  on public.leads
+  for select
+  to authenticated
+  using (public.is_admin());
+
+drop policy if exists "Admins can delete leads" on public.leads;
+create policy "Admins can delete leads"
+  on public.leads
+  for delete
+  to authenticated
+  using (public.is_admin());
