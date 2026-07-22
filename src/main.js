@@ -1,4 +1,5 @@
 import "./style.css";
+import { supabase, isConfigured } from "./supabase.js";
 
 // Product content extracted from "handmade soaps.odt"
 const products = [
@@ -184,7 +185,7 @@ app.innerHTML = `
           </div>
           <button class="btn btn-primary" type="submit">Send message</button>
           <p class="form-note">
-            This is a demo form — nothing is sent yet. We'll wire it up to a backend later.
+            We'll only use your details to reply — never for anything else.
           </p>
           <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
         </form>
@@ -236,22 +237,57 @@ ldScript.type = "application/ld+json";
 ldScript.textContent = JSON.stringify(productLd);
 document.head.appendChild(ldScript);
 
-// Lead form — static demo handling (no backend yet)
+// Lead form — saves each message to the Supabase `leads` table
 const form = document.querySelector("#lead-form");
 const status = document.querySelector("#form-status");
+const submitBtn = form.querySelector("button[type='submit']");
 
-form.addEventListener("submit", (event) => {
+const showStatus = (text, kind = "ok") => {
+  status.textContent = text;
+  status.classList.add("show");
+  status.classList.toggle("error", kind === "error");
+};
+
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
+
   const name = form.name.value.trim();
   const email = form.email.value.trim();
+  const message = form.message.value.trim();
 
   if (!name || !email) {
-    status.textContent = "Please add your name and email so we can reply.";
-    status.classList.add("show");
+    showStatus("Please add your name and email so we can reply.", "error");
     return;
   }
 
-  status.textContent = `Thanks, ${name}! This is a demo — your message wasn't actually sent yet.`;
-  status.classList.add("show");
+  if (!isConfigured) {
+    showStatus(
+      `Thanks, ${name}! The database isn't connected yet, so this message wasn't saved.`,
+      "error"
+    );
+    return;
+  }
+
+  const originalLabel = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending…";
+
+  const { error } = await supabase
+    .from("leads")
+    .insert({ name, email, message: message || null });
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = originalLabel;
+
+  if (error) {
+    console.error("[supabase] Could not save lead:", error);
+    showStatus(
+      "Sorry — we couldn't send that. Please try again, or email us directly.",
+      "error"
+    );
+    return;
+  }
+
+  showStatus(`Thanks, ${name}! We'll reply within 1–2 business days.`);
   form.reset();
 });

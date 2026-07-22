@@ -11,6 +11,8 @@ dist/
 .env
 .env.*
 .dev.vars
+# ...but the placeholder template is safe to share
+!.env.example
 
 # OS / editor
 desktop.ini
