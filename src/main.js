@@ -134,7 +134,7 @@ app.innerHTML = `
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#products">Explore our soaps</a>
-            <button class="btn btn-ghost" id="purchase-btn" type="button">Purchase</button>
+            <a class="btn btn-ghost" href="/giftbox">Purchase</a>
           </div>
         </div>
         <div class="hero-art">
@@ -165,7 +165,6 @@ app.innerHTML = `
             Prefer email? Reach us directly any time.
           </p>
           <ul class="contact-list">
-            <li>✉️ hello@vermazingsoaps.example</li>
             <li>📍 Studio pickup available by appointment</li>
             <li>⏱️ We reply within 1–2 business days</li>
           </ul>
@@ -293,28 +292,17 @@ form.addEventListener("submit", async (event) => {
   form.reset();
 });
 
-// Purchase button — asks the server to create a Stripe Checkout Session, then
-// hands off to Stripe's hosted payment page. The price lives on the server.
-const purchaseBtn = document.querySelector("#purchase-btn");
-
-purchaseBtn?.addEventListener("click", async () => {
-  const originalLabel = purchaseBtn.textContent;
-  purchaseBtn.disabled = true;
-  purchaseBtn.textContent = "Redirecting…";
-
-  try {
-    const res = await fetch("/api/checkout", { method: "POST" });
-    const data = await res.json();
-
-    if (res.ok && data.url) {
-      window.location.href = data.url; // off to Stripe's hosted checkout
-      return;
-    }
-    throw new Error(data.error || "Checkout could not be started.");
-  } catch (err) {
-    console.error("[checkout]", err);
-    purchaseBtn.disabled = false;
-    purchaseBtn.textContent = originalLabel;
-    alert("Sorry — checkout couldn't start. Please try again in a moment.");
-  }
-});
+// Arriving from another page with a hash (e.g. "/#contact" from the gift box
+// page's "For Delivery" button) needs a manual scroll: the target sections are
+// built by this script, so they don't exist yet when the browser first tries.
+// Use an instant jump (not smooth) so we land directly on the section, and run
+// it again after load because lazy images change the page height.
+function scrollToHash() {
+  if (!location.hash) return;
+  const target = document.querySelector(location.hash);
+  if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
+}
+if (location.hash) {
+  scrollToHash();
+  window.addEventListener("load", scrollToHash);
+}

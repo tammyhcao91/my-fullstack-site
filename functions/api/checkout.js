@@ -8,8 +8,8 @@
 
 // --- Fixed, server-side price. Change these two lines to adjust the offer. ---
 const CURRENCY = "cad"; // vermazing.ca is a Canadian shop; switch to "usd" if preferred
-const AMOUNT = 2000; // in cents → $20.00
-const PRODUCT_NAME = "Vermazing Handcrafted Vegan Soap";
+const AMOUNT = 2500; // in cents → $25.00
+const PRODUCT_NAME = "Vermazing Vegan Soap Gift Box";
 
 const json = (data, status = 200) =>
   new Response(JSON.stringify(data), {

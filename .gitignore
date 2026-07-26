@@ -19,6 +19,12 @@ desktop.ini
 Thumbs.db
 .DS_Store
 
+# Original camera images (optimized copies live in public/images/)
+IMG_*.PNG
+IMG_*.png
+IMG_*.JPG
+IMG_*.jpg
+
 # Private product docs (kept locally, never published)
 Ingredients_NCOSoap.pdf
 Ingredients_OatmealSheaButterSoap.pdf
