@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Thank you · Vermazing Soaps</title>
+    <style>
+      :root {
+        --bg: #faf8f3;
+        --surface: #ffffff;
+        --ink: #2b2b26;
+        --ink-soft: #5f5f57;
+        --brand: #4a7c59;
+        --brand-dark: #3a6247;
+        --brand-soft: #e7efe8;
+        --border: #e5e0d5;
+        --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        font-family: var(--font);
+        color: var(--ink);
+        background: radial-gradient(120% 120% at 50% 0%, var(--brand-soft) 0%, var(--bg) 55%);
+        line-height: 1.6;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(43, 43, 38, 0.08);
+        padding: 48px 40px;
+        max-width: 460px;
+        text-align: center;
+      }
+      .check {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 24px;
+        border-radius: 50%;
+        background: var(--brand);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 34px;
+        line-height: 1;
+      }
+      h1 { margin: 0 0 12px; font-size: 1.7rem; }
+      p { margin: 0 0 28px; color: var(--ink-soft); }
+      .btn {
+        display: inline-block;
+        background: var(--brand);
+        color: #fff;
+        font-weight: 600;
+        padding: 13px 26px;
+        border-radius: 999px;
+        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(74, 124, 89, 0.28);
+        transition: background 0.2s ease;
+      }
+      .btn:hover { background: var(--brand-dark); }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="check" aria-hidden="true">✓</div>
+      <h1>Thank you for your order!</h1>
+      <p>
+        Your payment was successful and we've received your order. We'll be in
+        touch shortly with the details.
+      </p>
+      <a class="btn" href="/">Back to home</a>
+    </main>
+  </body>
+</html>

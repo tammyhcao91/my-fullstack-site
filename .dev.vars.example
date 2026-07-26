@@ -1,0 +1,7 @@
+# Template for .dev.vars — copy this file to `.dev.vars` and fill in real values.
+# `.dev.vars` is loaded by `wrangler pages dev` for local development and is
+# gitignored. This .example file is safe to commit (it holds no real secrets).
+
+# Stripe TEST secret key (starts with sk_test_). Get it from
+# https://dashboard.stripe.com/test/apikeys
+STRIPE_SECRET_KEY=sk_test_your_key_here

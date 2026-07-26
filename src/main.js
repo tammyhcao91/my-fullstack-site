@@ -134,6 +134,7 @@ app.innerHTML = `
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#products">Explore our soaps</a>
+            <button class="btn btn-ghost" id="purchase-btn" type="button">Purchase</button>
           </div>
         </div>
         <div class="hero-art">
@@ -290,4 +291,30 @@ form.addEventListener("submit", async (event) => {
 
   showStatus(`Thanks, ${name}! We'll reply within 1–2 business days.`);
   form.reset();
+});
+
+// Purchase button — asks the server to create a Stripe Checkout Session, then
+// hands off to Stripe's hosted payment page. The price lives on the server.
+const purchaseBtn = document.querySelector("#purchase-btn");
+
+purchaseBtn?.addEventListener("click", async () => {
+  const originalLabel = purchaseBtn.textContent;
+  purchaseBtn.disabled = true;
+  purchaseBtn.textContent = "Redirecting…";
+
+  try {
+    const res = await fetch("/api/checkout", { method: "POST" });
+    const data = await res.json();
+
+    if (res.ok && data.url) {
+      window.location.href = data.url; // off to Stripe's hosted checkout
+      return;
+    }
+    throw new Error(data.error || "Checkout could not be started.");
+  } catch (err) {
+    console.error("[checkout]", err);
+    purchaseBtn.disabled = false;
+    purchaseBtn.textContent = originalLabel;
+    alert("Sorry — checkout couldn't start. Please try again in a moment.");
+  }
 });
